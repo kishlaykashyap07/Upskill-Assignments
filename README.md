@@ -41,6 +41,22 @@ This implementation uses the **Strategy Pattern** to ensure each business rule i
 - .NET SDK 7.0 or higher
 - Visual Studio 2022 or Visual Studio Code
 
+## How it works: Using the Application
+The application provides an interactive console interface with the following options:
+
+1. **Process a new order - Create a custom order with:**
+   - Customer and agent information
+   - Multiple products of different types
+   - Custom pricing
+2. **Process example orders - Run a demo that processes pre-configured orders demonstrating all business rules:**
+   - Physical products with packing slips and commission
+   - Books with royalty department slips and commission
+   - Membership activation with email notification
+   - Membership upgrades with email notification
+   - "Learning to Ski" video with free First Aid video
+   - Mixed orders with multiple product types
+   - Exit - Close the application
+
 ### Test case:
 ![image](https://github.com/user-attachments/assets/a826c8a0-bffd-4287-afde-d012fd1645ad)
 
