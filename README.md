@@ -41,6 +41,10 @@ This implementation uses the **Strategy Pattern** to ensure each business rule i
 - .NET SDK 7.0 or higher
 - Visual Studio 2022 or Visual Studio Code
 
+### Test case:
+![image](https://github.com/user-attachments/assets/a826c8a0-bffd-4287-afde-d012fd1645ad)
+
+
 ### Build and Run
 
 ```bash
@@ -53,3 +57,6 @@ dotnet build
 
 # Run the application
 dotnet run --project OrderProcessingSystem/OrderProcessingSystem.csproj
+
+
+
