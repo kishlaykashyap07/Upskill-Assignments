@@ -1,14 +1,9 @@
-﻿using OrderProcessingSystem.Models;
-using OrderProcessingSystem.Processors;
-using OrderProcessingSystem.Services;
-
-namespace OrderProcessingSystem
+﻿namespace OrderProcessingSystem
 {
     public class Program
     {
         static void Main(string[] args)
         {
-            // Create order processors
             var processors = new List<IOrderProcessor>
             {
                 new PhysicalProductProcessor(),
@@ -18,20 +13,128 @@ namespace OrderProcessingSystem
                 new VideoProcessor()
             };
 
-            // Create order processing service
             var orderProcessingService = new OrderProcessingService(processors);
 
-            // Create example orders
-            var orders = CreateExampleOrders();
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("Order Processing System");
+                Console.WriteLine("======================");
+                Console.WriteLine("1. Process a new order");
+                Console.WriteLine("2. Process example orders");
+                Console.WriteLine("3. Exit");
+                Console.Write("\nSelect an option (1-3): ");
 
-            // Process each order
+                if (int.TryParse(Console.ReadLine(), out int choice))
+                {
+                    switch (choice)
+                    {
+                        case 1:
+                            ProcessNewOrder(orderProcessingService);
+                            break;
+                        case 2:
+                            ProcessExampleOrders(orderProcessingService);
+                            break;
+                        case 3:
+                            return;
+                        default:
+                            Console.WriteLine("Invalid option. Press any key to continue...");
+                            Console.ReadKey();
+                            break;
+                    }
+                }
+            }
+        }
+
+        private static void ProcessNewOrder(OrderProcessingService orderProcessingService)
+        {
+            Console.Clear();
+            Console.WriteLine("New Order Entry");
+            Console.WriteLine("==============");
+
+            var order = new Order
+            {
+                Id = new Random().Next(1000, 9999),
+                Products = new List<Product>()
+            };
+
+            // Get Customer ID
+            Console.Write("Enter Customer ID (or press Enter to skip): ");
+            order.CustomerId = Console.ReadLine();
+
+            // Get Agent ID
+            Console.Write("Enter Agent ID (or press Enter to skip): ");
+            order.AgentId = Console.ReadLine();
+
+            // Add products
+            while (true)
+            {
+                Console.WriteLine("\nAdd Product");
+                Console.WriteLine("===========");
+                Console.WriteLine("Available Product Types:");
+                Console.WriteLine("1. Physical Product");
+                Console.WriteLine("2. Book");
+                Console.WriteLine("3. Membership");
+                Console.WriteLine("4. Membership Upgrade");
+                Console.WriteLine("5. Video");
+                Console.WriteLine("0. Finish adding products");
+                Console.Write("\nSelect product type (0-5): ");
+
+                if (int.TryParse(Console.ReadLine(), out int productChoice))
+                {
+                    if (productChoice == 0)
+                        break;
+
+                    if (productChoice >= 1 && productChoice <= 5)
+                    {
+                        var product = new Product
+                        {
+                            Id = new Random().Next(1000, 9999)
+                        };
+
+                        Console.Write("Enter product name: ");
+                        product.Name = Console.ReadLine() ?? string.Empty;
+
+                        Console.Write("Enter price: ");
+                        if (decimal.TryParse(Console.ReadLine(), out decimal price))
+                        {
+                            product.Price = price;
+                        }
+
+                        product.Type = (ProductType)(productChoice - 1);
+                        order.Products.Add(product);
+                        Console.WriteLine("Product added successfully!");
+                    }
+                }
+            }
+
+            if (order.Products.Any())
+            {
+                Console.WriteLine("\nProcessing Order...\n");
+                orderProcessingService.ProcessOrder(order);
+            }
+            else
+            {
+                Console.WriteLine("\nNo products added to the order.");
+            }
+
+            Console.WriteLine("\nPress any key to continue...");
+            Console.ReadKey();
+        }
+
+        private static void ProcessExampleOrders(OrderProcessingService orderProcessingService)
+        {
+            Console.Clear();
+            Console.WriteLine("Processing Example Orders...\n");
+
+            var orders = CreateExampleOrders();
             foreach (var order in orders)
             {
                 orderProcessingService.ProcessOrder(order);
                 Console.WriteLine(new string('-', 50));
             }
 
-            Console.WriteLine("Press any key to exit...");
+            Console.WriteLine("\nPress any key to continue...");
             Console.ReadKey();
         }
 
@@ -39,7 +142,6 @@ namespace OrderProcessingSystem
         {
             return new List<Order>
             {
-                // Order with physical product
                 new Order
                 {
                     Id = 1,
@@ -50,8 +152,7 @@ namespace OrderProcessingSystem
                         new Product { Id = 1, Name = "Headphones", Type = ProductType.Physical, Price = 99.99m }
                     }
                 },
-                
-                // Order with book
+
                 new Order
                 {
                     Id = 2,
@@ -62,8 +163,7 @@ namespace OrderProcessingSystem
                         new Product { Id = 2, Name = "Clean Code", Type = ProductType.Book, Price = 49.99m }
                     }
                 },
-                
-                // Order with membership
+
                 new Order
                 {
                     Id = 3,
@@ -73,8 +173,7 @@ namespace OrderProcessingSystem
                         new Product { Id = 3, Name = "Premium Membership", Type = ProductType.Membership, Price = 199.99m }
                     }
                 },
-                
-                // Order with membership upgrade
+
                 new Order
                 {
                     Id = 4,
@@ -84,8 +183,7 @@ namespace OrderProcessingSystem
                         new Product { Id = 4, Name = "Premium Plus Upgrade", Type = ProductType.MembershipUpgrade, Price = 99.99m }
                     }
                 },
-                
-                // Order with Learning to Ski video
+
                 new Order
                 {
                     Id = 5,
@@ -96,8 +194,7 @@ namespace OrderProcessingSystem
                         new Product { Id = 5, Name = "Learning to Ski", Type = ProductType.Video, Price = 29.99m }
                     }
                 },
-                
-                // Order with another video
+
                 new Order
                 {
                     Id = 6,
@@ -108,8 +205,7 @@ namespace OrderProcessingSystem
                         new Product { Id = 6, Name = "Cooking Basics", Type = ProductType.Video, Price = 19.99m }
                     }
                 },
-                
-                // Mixed order with multiple products
+
                 new Order
                 {
                     Id = 7,

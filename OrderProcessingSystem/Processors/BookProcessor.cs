@@ -1,5 +1,3 @@
-using OrderProcessingSystem.Models;
-
 namespace OrderProcessingSystem.Processors
 {
     public class BookProcessor : BaseOrderProcessor

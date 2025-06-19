@@ -1,5 +1,3 @@
-using OrderProcessingSystem.Models;
-
 namespace OrderProcessingSystem.Processors
 {
     public abstract class BaseOrderProcessor : IOrderProcessor

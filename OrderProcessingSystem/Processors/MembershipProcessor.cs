@@ -1,5 +1,3 @@
-using OrderProcessingSystem.Models;
-
 namespace OrderProcessingSystem.Processors
 {
     public class MembershipProcessor : BaseOrderProcessor
@@ -10,10 +8,8 @@ namespace OrderProcessingSystem.Processors
             {
                 if (IsApplicable(product, ProductType.Membership))
                 {
-                    // Activate membership
                     Console.WriteLine($"Activating membership: {product.Name} for customer: {order.CustomerId}");
 
-                    // Send email notification
                     Console.WriteLine($"Sending membership activation email to customer: {order.CustomerId}");
                 }
             }
